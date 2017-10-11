@@ -171,12 +171,15 @@ export class PrestacionEjecucionComponent implements OnInit {
      * @memberof PrestacionEjecucionComponent
      */
     moverRegistro(posicionNueva: number, registro: any) {
+        if (registro.dragData) {
+            registro = registro.dragData;
+        }
         // buscamos posicion actual
         let posicionActual = this.prestacion.ejecucion.registros.findIndex(r => (registro.id === r.id));
 
         // si la posicion a la que lo muevo es distinta a la actual
         // o si la posicion nueva es distinta a la siguiente de la actual (misma posicion)
-        if ((posicionActual !== posicionNueva) && (posicionNueva !== posicionActual + 1)) {
+        if ((posicionActual >= 0) && (posicionActual !== posicionNueva) && (posicionNueva !== posicionActual + 1)) {
             // movemos
             this.moverRegistroEnPosicion(posicionActual, posicionNueva);
         }
@@ -189,19 +192,22 @@ export class PrestacionEjecucionComponent implements OnInit {
         }
         registroOrigen.relacionadoCon = [registroDestino];
         let registros = this.prestacion.ejecucion.registros;
-        // si no existe lo agrego
+        // si no existe lo agregamos a ejecución y vinculamos
         let existe = registros.find(r => (registroOrigen.id && registroOrigen.id === r.id) || (r.concepto.conceptId === registroOrigen.conceptId));
         if (!existe) {
             this.ejecutarConcepto(registroOrigen, registroDestino);
-        }
-        // buscamos en la posicion que se encuentra el registro de orgien y destino
-        let indexOrigen = registros.findIndex(r => (r.id === registroOrigen.id));
-        let indexDestino = registros.findIndex(r => (r.id && registroDestino.id));
-        // movemos
-        let _registro = registros[indexOrigen];
-        registros.splice(indexOrigen, 1);
-        registros.splice(indexDestino + 1, 0, _registro);
+        } else {
+            // Vinculamos dos registros que se estan ejecutando en la consulta
+            if (registroOrigen) {
+                registroOrigen.relacionadoCon = [registroDestino];
+                // buscamos en la posicion que se encuentra el registro de orgien y destino
+                let indexOrigen = registros.findIndex(r => (r.id === registroOrigen.id));
+                let indexDestino = registros.findIndex(r => (r.id && registroDestino.id));
 
+                registros.splice(indexOrigen, 1);
+                registros.splice(indexDestino + 1, 0, registroOrigen);
+            }
+        }
     }
 
     /**
@@ -623,7 +629,9 @@ export class PrestacionEjecucionComponent implements OnInit {
         this.showDatosSolicitud = bool;
     }
     cambiaValorCollapse(valor: boolean, indice) {
-        this.itemsRegistros[indice].collapse = valor;
+        if (this.itemsRegistros[indice]) {
+            this.itemsRegistros[indice].collapse = valor;
+        }
     }
 
     colapsarPrestaciones() {

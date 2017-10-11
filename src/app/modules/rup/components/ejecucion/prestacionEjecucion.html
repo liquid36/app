@@ -58,7 +58,7 @@
                             </div>
 
                             <!-- Contenedor del registro RUP -->
-                            <div droppable [dropScope]="'vincular-registros-rup'" (onDrop)="vincularRegistros($event, registro)" [dragOverClass]="'drag-target-border'" [ngClass]="{'relacionado': registro?.relacionadoCon}">
+                            <div droppable [dropScope]="'vincular-registros-rup'" (onDrop)="vincularRegistros($event, registro)" [dragOverClass]="'drag-target-border'">
                                 <div class="rup-card">
                                     <div class="type drag-handle {{registro.concepto.semanticTag}}" [ngClass]="{ 'plan': registro.esSolicitud === true }" draggable [dragScope]="['orden-registros-rup', 'vincular-registros-rup', 'borrar-registros-rup']" [dragOverClass]="'drag-target-border'"
                                         [dragData]="registro" (onDragStart)="draggingRegistro(i ,registro, true)" (onDragEnd)="draggingRegistro(i, registro, false)">
@@ -72,7 +72,7 @@
                                             </div>
 
                                             <div class="actions">
-                                                <a href="javascript:void(0);" (click)="cambiaValorCollapse(!itemsRegistros[registro.id].collapse, registro.id)">
+                                                <a href="javascript:void(0);" (click)="cambiaValorCollapse(!itemsRegistros[registro.id]?.collapse, registro.id)">
                                                     <i class="mdi mdi-chevron-down"></i>
                                                 </a>
                                                 <span *ngIf="!(registro?.valor && registro?.valor.estado && registro.valor?.estado == 'transformado')">
