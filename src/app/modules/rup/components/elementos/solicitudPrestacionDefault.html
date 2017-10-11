@@ -3,7 +3,7 @@
     <plex-text label="Indicaciones" multiline="true" [(ngModel)]="registro.valor.indicaciones" name="indicaciones"></plex-text>
 
     <plex-select [(ngModel)]="registro.valor.profesionales" (getData)="loadProfesionales($event)" placeholder="Profesionales" labelField="apellido + ' ' + nombre" [multiple]="true" label="Profesional/es">
-    </plex-select>
+
 </ng-container>
 
 <div *ngIf="soloValores">
