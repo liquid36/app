@@ -1,6 +1,6 @@
 <!-- Header de paciente -->
 <header *ngIf="prestacion && prestacion?.id">
-    <!-- El paciente siembre debe venir desde MPI -->
+    <!-- El paciente siempre debe venir desde MPI -->
     <header-paciente *ngIf="paciente" (evtData)="cambioDePaciente($event)" [cambiarPaciente]="true" [paciente]="paciente"></header-paciente>
 </header>
 <form class="plex-layout" #form="ngForm" *ngIf="!showCambioPaciente">
