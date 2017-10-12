@@ -74,7 +74,7 @@ export class PrestacionEjecucionComponent implements OnInit {
     public panelIndex = 0;
 
     // Array de registros de la HUDS a agregar en tabs
-    public registrosHuds: any[] = [];
+    public registrosHuds = [];
 
 
     constructor(private servicioPrestacion: PrestacionesService,

@@ -10,9 +10,11 @@ export class HudsTabsComponent implements OnInit {
     @Input() registrosHuds: any[] = [];
 
     constructor() {
+
     }
 
     ngOnInit() {
+
     }
 
 }

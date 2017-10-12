@@ -58,7 +58,7 @@ export class HudsBusquedaComponent implements OnInit {
     /**
      * Listado de todos los registros de la HUDS seleccionados
      */
-    public registrosHuds: any = [];
+    public registrosHuds = [];
 
 
     /**
