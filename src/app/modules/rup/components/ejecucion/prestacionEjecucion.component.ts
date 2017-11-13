@@ -11,6 +11,7 @@ import { PacienteService } from './../../../../services/paciente.service';
 import { TipoPrestacionService } from './../../../../services/tipoPrestacion.service';
 import { ElementosRUPService } from './../../services/elementosRUP.service';
 import { PrestacionesService } from './../../services/prestaciones.service';
+import { FrecuentesProfesionalService } from './../../services/frecuentesProfesional.service';
 import { IPaciente } from './../../../../interfaces/IPaciente';
 
 
@@ -35,7 +36,7 @@ export class PrestacionEjecucionComponent implements OnInit {
     public conceptoARelacionar = [];
 
     // Tipo de busqueda
-    public tipoBusqueda: any;
+    public tipoBusqueda: any[];
 
     // Variable para mostrar el div dropable en el momento que se hace el drag
     public isDraggingConcepto: Boolean = false;
@@ -79,7 +80,9 @@ export class PrestacionEjecucionComponent implements OnInit {
     public prestacionValida = true;
     public mostrarMensajes = false;
 
-    constructor(private servicioPrestacion: PrestacionesService,
+    constructor(
+        private servicioPrestacion: PrestacionesService,
+        private frecuentesProfesionalService: FrecuentesProfesionalService,
         public elementosRUPService: ElementosRUPService,
         public plex: Plex, public auth: Auth,
         private router: Router, private route: ActivatedRoute,
@@ -340,7 +343,7 @@ export class PrestacionEjecucionComponent implements OnInit {
         let esSolicitud = false;
 
         // Si es un plan seteamos el true para que nos traiga el elemento rup por default
-        if (this.tipoBusqueda === 'planes') {
+        if (this.tipoBusqueda.length && this.tipoBusqueda[0] === 'planes') {
             esSolicitud = true;
         }
         let elementoRUP = this.elementosRUPService.buscarElemento(snomedConcept, esSolicitud);
@@ -596,6 +599,7 @@ export class PrestacionEjecucionComponent implements OnInit {
             }
         });
 
+
         let params: any = {
             op: 'registros',
             registros: registros
@@ -603,10 +607,12 @@ export class PrestacionEjecucionComponent implements OnInit {
 
         this.servicioPrestacion.patch(this.prestacion.id, params).subscribe(prestacionEjecutada => {
             this.plex.toast('success', 'Prestacion guardada correctamente', 'Prestacion guardada');
+
             // actualizamos las prestaciones de la HUDS
             this.servicioPrestacion.getByPaciente(this.paciente.id, true).subscribe(resultado => {
                 this.router.navigate(['rup/validacion', this.prestacion.id]);
             });
+
         });
     }
 
@@ -845,5 +851,10 @@ export class PrestacionEjecucionComponent implements OnInit {
             return false;
         }
     }
+    // recibe el tab que se clikeo y lo saca del array..
+    cerrartab($event) {
+        this.registrosHuds.splice($event, 1);
+    }
+
 
 }
