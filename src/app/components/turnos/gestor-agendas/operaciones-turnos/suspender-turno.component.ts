@@ -16,6 +16,7 @@ import { SmsService } from './../../../../services/turnos/sms.service';
 export class SuspenderTurnoComponent implements OnInit {
 
     @Input() agenda: IAgenda;
+    @Input() accion: any;
     @Input() turnosSeleccionados: ITurno[];
 
     @Output() saveSuspenderTurno = new EventEmitter<IAgenda>();
@@ -98,16 +99,22 @@ export class SuspenderTurnoComponent implements OnInit {
         if (this.motivoSuspensionSelect.select.nombre === null) {
             return;
         }
-
-        let patch: any = {
-            op: 'suspenderTurno',
-            turnos: this.turnos,
-            motivoSuspension: this.motivoSuspensionSelect.select.nombre
-        };
+        let patch: any;
+        if (this.accion === 'suspenderTurno') {
+            patch = {
+                op: this.accion,
+                turnos: this.turnos,
+                motivoSuspension: this.motivoSuspensionSelect.select.nombre
+            };
+        } else {
+            patch = {
+                op: this.accion,
+                estado: this.accion
+            };
+        }
 
         // Patchea los turnosSeleccionados (1 o más)
-        this.serviceAgenda.patchMultiple(this.agenda.id, patch).subscribe(
-
+        this.serviceAgenda.patch(this.agenda.id, patch).subscribe(
             resultado => {
                 this.agenda = resultado;
                 if (this.turnos.length === 1) {
