@@ -1,21 +1,21 @@
 
     <div class="col-sm-12" *ngIf="!showcreate && !showupdate">
-        <plex-box title="Especialidades">
-            <plex-scroll (on-scroll)="nextPage()" distancia="3"></plex-scroll>
-            <form [formGroup]="searchForm">
-                <div class="row">
-                    <div class="col-md-6">
-                        <plex-text formControlName="codigoSisa" label="Codigo Sisa" placeholder="Ingresar código...">
-                        </plex-text>
-                    </div>
-                    <div class="col-md-6">
-                        <plex-text formControlName="nombre" label="Nombre" placeholder="Ingrese nombre...">
-                        </plex-text>
-                    </div>
-                </div>
-            </form>
-        </plex-box>
+
         <plex-box>
+                <plex-scroll (on-scroll)="nextPage()" distancia="3"></plex-scroll>
+                <form [formGroup]="searchForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <plex-text formControlName="codigoSisa" label="Codigo Sisa" placeholder="Ingresar código...">
+                            </plex-text>
+                        </div>
+                        <div class="col-md-6">
+                            <plex-text formControlName="nombre" label="Nombre" placeholder="Ingrese nombre...">
+                            </plex-text>
+                        </div>
+                    </div>
+                </form>
+                <br>
             <div class="row">
                 <div class="col-sm-12">
                     <plex-button type="primary" label="Nueva Especialidad" title="Nueva Especialidad" (click)="showcreate = !showcreate">
@@ -39,7 +39,8 @@
                             <td>{{especialidad.nombre}}</td>
                             <td>{{especialidad.disciplina}}</td>
                             <td>
-                                <plex-bool type="slide" [(ngModel)]="especialidad.activo" label="" name="especialidad.activo" (click)="activate(especialidad)"></plex-bool>
+                                <plex-bool type="slide" *ngIf="especialidad.activo === false" [(ngModel)]="especialidad.activo"  name="especialidad.activo" (change)="activateTrue(especialidad)"></plex-bool>
+                                <plex-bool type="slide" *ngIf="especialidad.activo === true" [(ngModel)]="especialidad.activo"  name="especialidad.activo" (change)="activateFalse(especialidad)"></plex-bool>
                             </td>
                             <td>
                                 <plex-button type="primary" label="Actualizar" (click)="onEdit(especialidad)">

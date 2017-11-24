@@ -52,6 +52,7 @@ export class EspecialidadComponent implements OnInit {
 
         this.especialidadService.get(parametros).subscribe(
             datos => {
+                console.log(datos)
                 if (concatenar) {
                     if (datos.length > 0) {
                         this.datos = this.datos.concat(datos);
@@ -61,7 +62,7 @@ export class EspecialidadComponent implements OnInit {
                     }
                 } else {
                     this.datos = datos;
-                    this.finScroll = false;
+                    this.finScroll = true;
                 }
 
                 this.loader = false;
@@ -80,17 +81,15 @@ export class EspecialidadComponent implements OnInit {
         this.seleccion = objEspecialidad;
     }
 
+    activateTrue(objEspecialidad: IEspecialidad) {
+        this.especialidadService.enable(objEspecialidad)
+                 .subscribe(datos => this.loadDatos());  // Bind to view
+    }
 
-    activate(objEspecialidad: IEspecialidad) {
 
-        if (objEspecialidad.activo) {
-
-            this.especialidadService.disable(objEspecialidad)
-                .subscribe(datos => this.loadDatos());  // Bind to view
-        } else {
-            this.especialidadService.enable(objEspecialidad)
-                .subscribe(datos => this.loadDatos());  // Bind to view
-        }
+    activateFalse(objEspecialidad: IEspecialidad) {
+        this.especialidadService.disable(objEspecialidad)
+                 .subscribe(datos => this.loadDatos());  // Bind to view
     }
 
     nextPage() {

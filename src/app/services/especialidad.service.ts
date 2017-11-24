@@ -49,7 +49,8 @@ export class EspecialidadService {
      */
     disable(especialidad: IEspecialidad): Observable<IEspecialidad> {
         especialidad.activo = false;
-        especialidad.fechaBaja = new Date();
+        // especialidad.fechaBaja = new Date();
+
         return this.put(especialidad);
     }
 
