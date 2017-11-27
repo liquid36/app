@@ -23,11 +23,11 @@ export class EspacioFisicoComponent implements OnInit {
     finScroll = false;
     tengoDatos = true;
     loader = false;
-    
+
     constructor(private formBuilder: FormBuilder, private espacioFisicoService: EspacioFisicoService, public auth: Auth, public plex: Plex) { }
 
     ngOnInit() {
-        
+
         // Crea el formulario reactivo
         this.searchForm = this.formBuilder.group({
             nombre: [''],

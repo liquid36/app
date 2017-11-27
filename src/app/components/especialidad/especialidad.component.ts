@@ -14,7 +14,7 @@ const limit = 25;
     templateUrl: 'especialidad.html'
 })
 export class EspecialidadComponent implements OnInit {
-    @HostBinding('class.plex-layout') layout = true;  // Permite el uso de flex-box en el componente    
+    @HostBinding('class.plex-layout') layout = true;  // Permite el uso de flex-box en el componente
     showcreate = false;
     showupdate = false;
     datos: IEspecialidad[];
@@ -26,10 +26,6 @@ export class EspecialidadComponent implements OnInit {
     value: any;
     tengoDatos = true;
     total = null;
-    @HostListener('scroll', ['$event']) onScrollEvent($event){
-        console.log($event);
-        console.log("scrolling");
-      } 
     constructor(private formBuilder: FormBuilder, public plex: Plex, private especialidadService: EspecialidadService) { }
 
     ngOnInit() {

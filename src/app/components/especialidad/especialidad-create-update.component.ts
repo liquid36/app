@@ -15,7 +15,7 @@ export class EspecialidadCreateUpdateComponent implements OnInit {
     @Output() data: EventEmitter<IEspecialidad> = new EventEmitter<IEspecialidad>();
     // createForm: FormGroup;
     constructor(private formBuilder: FormBuilder,
-         private especialidadService: EspecialidadService, 
+         private especialidadService: EspecialidadService,
          public plex: Plex
         ) { }
 
@@ -52,7 +52,7 @@ export class EspecialidadCreateUpdateComponent implements OnInit {
             espOperation = this.especialidadService.post(this.modelo);
         }
 
-        espOperation.subscribe(resultado =>{
+        espOperation.subscribe(resultado => {
             if (resultado) {
                 this.plex.alert('Los datos se actualizaron correctamente');
                 this.data.emit(resultado);
