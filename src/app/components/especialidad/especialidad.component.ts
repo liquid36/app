@@ -2,7 +2,7 @@ import { EspecialidadCreateUpdateComponent } from './especialidad-create-update.
 import { IEspecialidad } from './../../interfaces/IEspecialidad';
 import { EspecialidadService } from './../../services/especialidad.service';
 import { Observable } from 'rxjs/Rx';
-import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, Input, EventEmitter, HostBinding, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Plex } from '@andes/plex';
 
@@ -14,6 +14,7 @@ const limit = 25;
     templateUrl: 'especialidad.html'
 })
 export class EspecialidadComponent implements OnInit {
+    @HostBinding('class.plex-layout') layout = true;  // Permite el uso de flex-box en el componente    
     showcreate = false;
     showupdate = false;
     datos: IEspecialidad[];
@@ -24,7 +25,11 @@ export class EspecialidadComponent implements OnInit {
     finScroll = false;
     value: any;
     tengoDatos = true;
-
+    total = null;
+    @HostListener('scroll', ['$event']) onScrollEvent($event){
+        console.log($event);
+        console.log("scrolling");
+      } 
     constructor(private formBuilder: FormBuilder, public plex: Plex, private especialidadService: EspecialidadService) { }
 
     ngOnInit() {
@@ -52,10 +57,10 @@ export class EspecialidadComponent implements OnInit {
 
         this.especialidadService.get(parametros).subscribe(
             datos => {
-                console.log(datos)
                 if (concatenar) {
                     if (datos.length > 0) {
                         this.datos = this.datos.concat(datos);
+                        this.total = this.datos.length;
                     } else {
                         this.finScroll = true;
                         this.tengoDatos = false;

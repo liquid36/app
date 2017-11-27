@@ -104,7 +104,15 @@ export class EditEspacioFisicoComponent implements OnInit {
         } else {
             estOperation = this.EspacioFisicoService.post(modelo);
         }
-        estOperation.subscribe(resultado => this.data.emit(resultado));
+        estOperation.subscribe(resultado => {
+            if (resultado) {
+                this.plex.alert('Los datos se actualizaron correctamente');
+                this.data.emit(resultado);
+            } else {
+                this.plex.alert('ERROR: Ocurrio un problema al actualizar los datos');
+            }
+
+        });
     }
 
     onCancel() {

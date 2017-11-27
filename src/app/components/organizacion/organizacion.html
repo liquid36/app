@@ -4,7 +4,7 @@
       <plex-box type="primary">
         <header>
           <div class="page-title">Organizaciones</div>
-        </header>
+
         <form [formGroup]="searchForm">
           <div class="row">
             <div class="col-6">
@@ -17,6 +17,8 @@
             </div>
           </div>
         </form>
+        <br>
+      </header>
         <!--// TODO: hay que resolver el tema de plex-scroll-->
         <plex-scroll (on-scroll)="nextPage()" distancia="3"></plex-scroll>
         <table *ngIf="datos && datos.length" class="table table-striped">
@@ -47,9 +49,10 @@
           </tbody>
         </table>
         <plex-loader *ngIf="loader"></plex-loader>
-        <div *ngIf="finScroll" class="alert alert-warning">
-          <p style="text-align: center;"> No se encontraron más resultados </p>
-        </div>
+        <div  class="alert alert-info"  (click)="nextPage()" >
+            <p style="text-align: center;"> Ver mas </p>
+    <!-- pasar a un componente de plex -->
+    </div>
       </plex-box>
     </div>
   </div>

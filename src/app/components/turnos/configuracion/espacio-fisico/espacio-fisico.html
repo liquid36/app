@@ -1,12 +1,9 @@
 <section>
-    <plex-box *ngIf="!showEditar">
-        <div class="row">
-            <div class="col">
-                <plex-button type="primary" label="Nuevo Espacio Físico" title="Nuevo Espacio Físico" (click)="showEditar = !showEditar">
-                </plex-button>
-            </div>
-        </div>
-        <plex-scroll (on-scroll)="nextPage()" distancia="3"></plex-scroll>
+    <plex-box *ngIf="!showEditar" type="primary">
+            <header>
+                    <div class="page-title">Espacios Fisicos</div>
+            
+        
         <form [formGroup]="searchForm">
             <div class="row">
                 <div class="col-3">
@@ -27,6 +24,9 @@
                 </div>
             </div>
         </form>
+        <br>
+    </header>
+    <plex-scroll (on-scroll)="nextPage($event)" distancia="1"></plex-scroll>
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -46,32 +46,32 @@
                         <td>{{espacioFisico.servicio?.nombre}}</td>
                         <td>{{espacioFisico.sector?.nombre}}</td>
                         <td>
-                            <plex-bool class="text-info" [(ngModel)]="espacioFisico.activo" name="espacioFisico.activo" (click)="activate(espacioFisico)"
-                                title="{{espacioFisico.activo ? 'Desactivar' : 'Activar'}}"></plex-bool>
+                        <plex-bool type="slide" *ngIf="espacioFisico.activo === false" [(ngModel)]="espacioFisico.activo"  name="espacioFisico.activo" (change)="activateTrue(espacioFisico)"></plex-bool>
+                        <plex-bool type="slide" *ngIf="espacioFisico.activo === true" [(ngModel)]="espacioFisico.activo"  name="espacioFisico.activo" (change)="activateFalse(espacioFisico)"></plex-bool>
                         </td>
                         <td>
                             <plex-button type="primary" icon="pencil" (click)="editarEspacioFisico(espacioFisico)" title="Editar"></plex-button>
                         </td>
                         <td>
-                            <plex-button type="primary" icon="delete" (click)="eliminarEspacioFisico(espacioFisico)" title="Eliminar"></plex-button>
+                            <plex-button type="danger" icon="delete" (click)="eliminarEspacioFisico(espacioFisico)" title="Eliminar"></plex-button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </div>
         <plex-loader *ngIf="loader"></plex-loader>
-        <div *ngIf="finScroll" class="alert alert-warning">
-            <p style="text-align: center;"> No se encontraron más resultados </p>
-            <!-- pasar a un componente de plex -->
+        <div  class="alert alert-info"  (click)="nextPage()" >
+                <p style="text-align: center;"> Ver mas </p>
+        <!-- pasar a un componente de plex -->
         </div>
     </plex-box>
 </section>
-<!-- <footer *ngIf="!showEditar">
-    <div class="row">
-        <div class="col">
-            <plex-button type="primary" label="Nuevo Espacio Físico" title="Nuevo Espacio Físico" (click)="showEditar = !showEditar">
-            </plex-button>
-        </div>
-    </div>
-</footer> -->
+
+
+<footer *ngIf="!showEditar">
+<div class="text-right">
+    <plex-button type="primary" label="Nuevo Espacio Físico" title="Nuevo Espacio Físico" (click)="showEditar = !showEditar">
+    </plex-button>
+ </div>
+</footer>
 <edit-espacio-fisico *ngIf="showEditar" [espacioFisicoHijo]="selectedEspacioFisico" (data)='onReturn($event)' (onReturn)="onCancel()"></edit-espacio-fisico>

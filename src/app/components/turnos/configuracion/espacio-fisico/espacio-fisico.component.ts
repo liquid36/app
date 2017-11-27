@@ -1,18 +1,19 @@
 import { Plex } from '@andes/plex';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { Auth } from '@andes/auth';
 
 import { IEspacioFisico } from './../../../../interfaces/turnos/IEspacioFisico';
 import { EspacioFisicoService } from './../../../../services/turnos/espacio-fisico.service';
-
+const limit = 25;
 @Component({
     selector: 'espacio-fisico',
     templateUrl: 'espacio-fisico.html'
 })
 
 export class EspacioFisicoComponent implements OnInit {
+    @HostBinding('class.plex-layout') layout = true;
     showEditar = false;
     espaciosFisicos: IEspacioFisico[];
     searchForm: FormGroup;
@@ -22,10 +23,11 @@ export class EspacioFisicoComponent implements OnInit {
     finScroll = false;
     tengoDatos = true;
     loader = false;
-
+    
     constructor(private formBuilder: FormBuilder, private espacioFisicoService: EspacioFisicoService, public auth: Auth, public plex: Plex) { }
 
     ngOnInit() {
+        
         // Crea el formulario reactivo
         this.searchForm = this.formBuilder.group({
             nombre: [''],
@@ -54,7 +56,7 @@ export class EspacioFisicoComponent implements OnInit {
             'sector': this.value && this.value.sector,
             'activo': this.value && this.value.activo,
             'organizacion': this.auth.organizacion._id,
-            'skip': this.skip
+            'skip': this.skip, 'limit': limit
         };
 
         this.espacioFisicoService.get(parametros).subscribe(
@@ -63,8 +65,8 @@ export class EspacioFisicoComponent implements OnInit {
                     if (espaciosFisicos.length > 0) {
                         this.espaciosFisicos = this.espaciosFisicos.concat(espaciosFisicos);
                     } else {
-                        this.finScroll = true;
-                        this.tengoDatos = false;
+                        this.finScroll = false;
+                        this.tengoDatos = true;
                     }
                 } else {
                     this.espaciosFisicos = espaciosFisicos;
@@ -113,6 +115,18 @@ export class EspacioFisicoComponent implements OnInit {
         }
     }
 
+    activateTrue(objEspacioFisico: IEspacioFisico) {
+        this.espacioFisicoService.enable(objEspacioFisico)
+                 .subscribe(datos => this.loadEspaciosFisicos());  // Bind to view
+    }
+
+
+    activateFalse(objEspacioFisico: IEspacioFisico) {
+        this.espacioFisicoService.disable(objEspacioFisico)
+                 .subscribe(datos => this.loadEspaciosFisicos());  // Bind to view
+    }
+
+
     editarEspacioFisico(espacioFisico: IEspacioFisico) {
         this.showEditar = true;
         this.selectedEspacioFisico = espacioFisico;
@@ -127,6 +141,14 @@ export class EspacioFisicoComponent implements OnInit {
                 });
             }
         });
+    }
+
+    nextPage() {
+        if (this.tengoDatos) {
+            this.skip += limit;
+            this.loadEspaciosFisicos(true);
+            this.loader = true;
+        }
     }
 
 }

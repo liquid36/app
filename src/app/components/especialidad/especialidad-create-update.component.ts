@@ -3,6 +3,7 @@ import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { EspecialidadService } from './../../services/especialidad.service';
 import { IEspecialidad } from './../../interfaces/IEspecialidad';
+import { Plex } from '@andes/plex';
 
 @Component({
     selector: 'especialidad-create-update',
@@ -13,7 +14,10 @@ export class EspecialidadCreateUpdateComponent implements OnInit {
     @Input('seleccion') seleccion: IEspecialidad;
     @Output() data: EventEmitter<IEspecialidad> = new EventEmitter<IEspecialidad>();
     // createForm: FormGroup;
-    constructor(private formBuilder: FormBuilder, private especialidadService: EspecialidadService) { }
+    constructor(private formBuilder: FormBuilder,
+         private especialidadService: EspecialidadService, 
+         public plex: Plex
+        ) { }
 
     ngOnInit() {
         Object.assign(this.modelo, this.seleccion);
@@ -48,7 +52,15 @@ export class EspecialidadCreateUpdateComponent implements OnInit {
             espOperation = this.especialidadService.post(this.modelo);
         }
 
-        espOperation.subscribe(resultado => this.data.emit(resultado));
+        espOperation.subscribe(resultado =>{
+            if (resultado) {
+                this.plex.alert('Los datos se actualizaron correctamente');
+                this.data.emit(resultado);
+            } else {
+                this.plex.alert('ERROR: Ocurrio un problema al actualizar los datos');
+            }
+        });
+
     }
 
     onCancel() {

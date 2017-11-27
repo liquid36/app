@@ -1,8 +1,9 @@
 
-    <div class="col-sm-12" *ngIf="!showcreate && !showupdate">
+    <section *ngIf="!showcreate && !showupdate">
 
         <plex-box>
-                <plex-scroll (on-scroll)="nextPage()" distancia="3"></plex-scroll>
+                <header>
+                        <div class="page-title">Especialidades</div>
                 <form [formGroup]="searchForm">
                     <div class="row">
                         <div class="col-md-6">
@@ -16,13 +17,10 @@
                     </div>
                 </form>
                 <br>
-            <div class="row">
-                <div class="col-sm-12">
-                    <plex-button type="primary" label="Nueva Especialidad" title="Nueva Especialidad" (click)="showcreate = !showcreate">
-                    </plex-button>
-                </div>
-            </div>
-            <div class="table-responsive">
+            </header>
+                <plex-scroll (scroll)="onScrollEvent()" distancia="3"></plex-scroll>
+
+            <div class="table-responsive" (scroll)="nextPage($event)">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -55,13 +53,21 @@
                     </tbody>
                 </table>
             </div>
+            <p></p>
             <plex-loader *ngIf="loader"></plex-loader>
-            <div *ngIf="finScroll" class="alert alert-warning">
-                <p style="text-align: center;"> No se encontraron más resultados </p>
+            <div *ngIf="finScroll" class="alert alert-info"  (click)="nextPage()" >
+                <p style="text-align: center;"> Ver mas </p>
 <!-- pasar a un componente de plex -->
 </div>
 </plex-box>
-</div>
+    </section>
+
+<footer *ngIf="!showupdate ">
+        <div class="text-right">
+                <plex-button type="primary" label="Nueva Especialidad" title="Nueva Especialidad" (click)="showcreate = !showcreate">
+                    </plex-button>
+         </div>
+</footer>
 <div class="col-sm-12" *ngIf="showcreate">
     <div class="clear"></div>
     <especialidad-create-update (data)='onReturn($event)'></especialidad-create-update>
