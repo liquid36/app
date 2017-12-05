@@ -69,6 +69,15 @@
             background: $productos;
         }
     }
+    &.elemento.registro {
+        &:hover,
+        &.active {
+            border: 2px solid $adjuntos;
+        }
+        .type {
+            background: $adjuntos;
+        }
+    }
     .type {
         padding: 5px;
         width: 20px;
@@ -237,6 +246,52 @@ fieldset[disabled] .btn-hallazgos.active {
 
 .btn-hallazgos .badge {
     color: $hallazgos;
+    background-color: white;
+}
+
+.btn-adjuntos {
+    color: white;
+    background-color: $adjuntos;
+    border-color: $adjuntos;
+}
+
+.btn-adjuntos:hover,
+.btn-adjuntos:focus,
+.btn-adjuntos:active,
+.btn-adjuntos.active,
+.open .dropdown-toggle.btn-adjuntos {
+    color: white;
+    background-color: $adjuntos;
+    border-color: $adjuntos;
+}
+
+.btn-adjuntos:active,
+.btn-adjuntos.active,
+.open .dropdown-toggle.btn-adjuntos {
+    background-image: none;
+}
+
+.btn-adjuntos.disabled,
+.btn-adjuntos[disabled],
+fieldset[disabled] .btn-adjuntos,
+.btn-adjuntos.disabled:hover,
+.btn-adjuntos[disabled]:hover,
+fieldset[disabled] .btn-adjuntos:hover,
+.btn-adjuntos.disabled:focus,
+.btn-adjuntos[disabled]:focus,
+fieldset[disabled] .btn-adjuntos:focus,
+.btn-adjuntos.disabled:active,
+.btn-adjuntos[disabled]:active,
+fieldset[disabled] .btn-adjuntos:active,
+.btn-adjuntos.disabled.active,
+.btn-adjuntos[disabled].active,
+fieldset[disabled] .btn-adjuntos.active {
+    background-color: $adjuntos;
+    border-color: $adjuntos;
+}
+
+.btn-adjuntos .badge {
+    color: $adjuntos;
     background-color: white;
 }
 
@@ -520,6 +575,13 @@ fieldset[disabled] .btn-procedimientos.active {
     border: 1px solid $productos !important;
 }
 
+.border-adjunto {
+    &:focus {
+        outline: 0;
+    }
+    border: 1px solid $adjuntos !important;
+}
+
 .badge-hallazgo {
     border: 1px solid #f4a03b;
     color: #f4a03b;
@@ -547,6 +609,13 @@ fieldset[disabled] .btn-procedimientos.active {
     right: -18% !important;
 }
 
+.badge-planes {
+    border: 1px solid #6a99ad;
+    color: #6a99ad;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+
 .badge-producto {
     border: 1px solid $productos;
     color: $productos;
@@ -554,9 +623,33 @@ fieldset[disabled] .btn-procedimientos.active {
     text-transform: uppercase;
 }
 
-.badge-planes {
-    border: 1px solid #6a99ad;
-    color: #6a99ad;
+.badge-adjunto {
+    border: 1px solid $adjuntos;
+    color: $adjuntos;
     font-weight: normal;
     text-transform: uppercase;
+}
+
+.bg-hallazgos {
+    background: $hallazgos;
+}
+
+.bg-trastornos {
+    background: $trastornos;
+}
+
+.bg-procedimientos {
+    background: $procedimientos;
+}
+
+.bg-planes {
+    background: $planes;
+}
+
+.bg-productos {
+    background: $productos;
+}
+
+.bg-adjuntos {
+    background: $adjuntos;
 }
