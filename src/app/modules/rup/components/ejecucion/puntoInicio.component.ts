@@ -330,8 +330,8 @@ export class PuntoInicioComponent implements OnInit {
     }
 
 
-    routeTo(action, id) {
-        this.router.navigate(['rup/' + action + '/', id]);
+    routeTo(action, idPrestacion, idAgenda) {
+        this.router.navigate(['rup/' + action + '/', idPrestacion, idAgenda]);
     }
 
 

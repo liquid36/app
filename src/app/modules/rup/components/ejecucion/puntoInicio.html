@@ -191,7 +191,8 @@
                                             </plex-button>
 
 
-                                            <plex-button *ngIf="turno.estado !== 'suspendido' && turno.paciente && !turno.prestacion && tienePermisos(turno.tipoPrestacion, turno.prestacion)" label="INICIAR PRESTACIÓN" type="success btn-sm" (click)="iniciarPrestacion(turno.paciente, turno.tipoPrestacion, turno.id)"></plex-button>
+                                            <plex-button *ngIf="turno.estado !== 'suspendido' && turno.paciente && !turno.prestacion && tienePermisos(turno.tipoPrestacion, turno.prestacion)" label="INICIAR PRESTACIÓN" type="success btn-sm" (click)="iniciarPrestacion(turno.paciente, turno.tipoPrestacion, turno.id , agendaSeleccionada)"></plex-button>
+                                            <pre>{{ agendaSeleccionada.id | json}}</pre>
 
                                             <plex-button *ngIf="turno.paciente && turno.estado !== 'suspendido' && turno.prestacion && turno.prestacion.estados[turno.prestacion.estados.length - 1].tipo === 'ejecucion' && tienePermisos(turno.tipoPrestacion,turno.prestacion)" label="VER REGISTROS"
                                                 type="primary btn-sm" (click)="routeTo('ejecucion', turno.prestacion.id)"></plex-button>
@@ -343,7 +344,7 @@
                                     </plex-button>
 
                                     <plex-button *ngIf="prestacion.estados[prestacion.estados.length - 1].tipo === 'ejecucion'" (click)="routeTo('ejecucion', prestacion.id)" label="VER REGISTROS" type="primary btn-sm">
-                                    </plex-button>
+                                    </plex-button>                                               
 
                                     <plex-button *ngIf="prestacion.estados[prestacion.estados.length - 1].tipo === 'validada'" (click)="routeTo('validacion', prestacion.id)" label="VER RESUMEN" type="primary btn-sm">
                                     </plex-button>

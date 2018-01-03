@@ -14,6 +14,7 @@ import { TipoPrestacionService } from './../../../../services/tipoPrestacion.ser
 import { ElementosRUPService } from './../../services/elementosRUP.service';
 import { PrestacionesService } from './../../services/prestaciones.service';
 import { IPaciente } from './../../../../interfaces/IPaciente';
+import { AgendaService } from '../../../../services/turnos/agenda.service';
 
 @Component({
     selector: 'rup-prestacionEjecucion',
@@ -84,6 +85,8 @@ export class PrestacionEjecucionComponent implements OnInit {
     public tengoResultado: any;
     // el concepto que seleccionamos para eliminar lo guradamos aca.
     public conceptoAEliminar: any;
+    // guardamos el id de la agenda que recibimos por parametro
+    public idAgenda: String;
 
     // boleean para verificar si estan todos los conceptos colapsados
     public collapse = true;
@@ -94,7 +97,8 @@ export class PrestacionEjecucionComponent implements OnInit {
         private router: Router, private route: ActivatedRoute,
         public servicioTipoPrestacion: TipoPrestacionService,
         private servicioPaciente: PacienteService,
-        private conceptObserverService: ConceptObserverService) { }
+        private conceptObserverService: ConceptObserverService,
+        public servicioAgenda: AgendaService) { }
 
     /**
      * Inicializamos prestacion a traves del id que viene como parametro de la url
@@ -111,14 +115,16 @@ export class PrestacionEjecucionComponent implements OnInit {
         this.conceptObserverService.destroy();
 
         this.route.params.subscribe(params => {
-            let id = params['id'];
+            console.log(params, 'params');
+            let id = params['idPrestacion'];
+            this.idAgenda = params['idAgenda'];
             // Mediante el id de la prestación que viene en los parámetros recuperamos el objeto prestación
             this.elementosRUPService.ready.subscribe((resultado) => {
                 if (resultado) {
                     this.showPrestacion = true;
                     this.servicioPrestacion.getById(id).subscribe(prestacion => {
                         this.prestacion = prestacion;
-
+                        this.setearAsistencia();
                         // this.prestacion.ejecucion.registros.sort((a: any, b: any) => a.updatedAt - b.updatedAt);
 
                         // Si la prestación está validad, navega a la página de validación
@@ -964,4 +970,21 @@ export class PrestacionEjecucionComponent implements OnInit {
     //         return false;
     //     });
     // }
+
+    setearAsistencia() {
+        console.log(this.idAgenda);
+        console.log(this.prestacion.solicitud.turno, 'asd');
+        debugger;
+        if (this.idAgenda && this.prestacion.solicitud.turno) {
+            let patch: any = {
+                op: 'darAsistencia',
+                turnos: [this.prestacion.solicitud.turno]
+            };
+            this.servicioAgenda.patchMultiple(this.idAgenda, patch).subscribe(resultado => {
+                if (resultado) {
+                    console.log(resultado);
+                }
+            });
+        }
+    }
 }
