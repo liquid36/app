@@ -9,6 +9,8 @@ import { IPrestacion } from '../interfaces/prestacion.interface';
 export class PrestacionesService {
 
     private prestacionesUrl = '/modules/rup/prestaciones';  // URL to web api
+    private vacunasUrl = '/modules/rup/huds/vacunas';
+
     private cache: any[] = [];
     private cacheRegistros: any[] = [];
     private cacheMedicamentos: any[] = [];
@@ -719,5 +721,10 @@ export class PrestacionesService {
         }
 
         return icon;
+    }
+
+
+    public getVacunas (idPaciente) {
+        return this.server.get(this.vacunasUrl, { params: { idPaciente } });
     }
 }

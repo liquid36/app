@@ -52,6 +52,10 @@ export class HudsBusquedaComponent implements OnInit {
      */
     public medicamentos: any = [];
 
+    /**
+     * Listado de todos las vacunas
+     */
+    public vacunas: any = [];
 
     /**
      * Listado de todos los hallazgos
@@ -95,9 +99,11 @@ export class HudsBusquedaComponent implements OnInit {
             this.listarPrestaciones();
             // this.listarProblemasCronicos();
             this.listarHallazgos();
+            this.listarVacunas();
             // this.listarHallazgosNoActivos();
             // this.listarProblemasActivos();
             // this.listarMedicamentos();
+
         }
     }
 
@@ -194,6 +200,12 @@ export class HudsBusquedaComponent implements OnInit {
 
         this.evtHuds.emit(elemento);
 
+    }
+
+    listarVacunas () {
+        this.servicioPrestacion.getVacunas(this.paciente.id).subscribe(data => {
+            this.vacunas = data;
+        });
     }
 
     listarPrestaciones() {

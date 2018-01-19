@@ -18,7 +18,11 @@
                     <span>MEDICAMENTOS</span>
                 </button>
             </span>
-
+            <span>
+                <button class="btn btn-producto btn-sm m-0" (click)="actualizarVista('vacunas')" [ngClass]="{'active': vista === 'vacunas'}">
+                    <span>VACUNAS</span>
+                </button>
+            </span>
         </div>
     </div>
 </div>
@@ -319,6 +323,74 @@
                     </ng-container>
                 </ul>
                 <div *ngIf="medicamentos.length === 0">No hay medicamentos registrados</div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="vista === 'vacunas'">
+            <div class="vista-titulo">Vacunas</div>
+            <div *ngIf="vacunas" class="conceptos list-unstyled">
+                <ul *ngIf="vacunas" class="conceptos list-unstyled">
+                    <ng-container *ngFor="let vacuna of vacunas; let iCronico = index">
+                        <li>
+
+                            <div class="rup-card mini producto" [ngClass]="{'active': estaEnTabs(vacuna, 'vacunas')}">
+                                    <div class="rup-header">
+                                        <div class="rup-border">
+
+                                            <div class="row p-0 m-0 border-secondary border-left-0">
+                                                <div class="col-12 p-0 m-0">
+                                                    <div class="row m-0 p-0">
+
+                                                        <!-- <ng-container *ngIf="emitirConceptos">
+                                                            <div class="icon-rup" draggable [dragScope]="_dragScope" [dragOverClass]="_dragOverClass" [dragData]="{'tipo': 'medicamento','data': medicamento, 'huds': true}"
+                                                                (onDragStart)="dragStart($e)" (onDragEnd)="dragEnd($e)">
+                                                                <i class="icon icon-rup-semantic-producto"></i>
+                                                            </div>
+                                                        </ng-container> -->
+                                                        <ng-container>
+                                                            <div class="icon-rup">
+                                                                <i class="icon icon-rup-semantic-producto"></i>
+                                                            </div>
+                                                        </ng-container>
+
+                                                        <div class="col p-0 pl-2 float-left" (click)="devolverRegistrosHuds(medicamento, 'medicamento')">
+                                                             {{vacuna.vacuna}} - {{vacuna.dosis}} <br>
+                                                             Fecha de aplicación: {{ vacuna.fechaAplicacion | fecha  }} <br>
+                                                             Lugar: {{vacuna.efector}}
+
+                                                            <!-- <div class="row p-0 m-0">
+                                                                <div class="col-10 p-0 m-0">
+                                                                    <ng-container *ngIf="medicamento.evoluciones">
+                                                                        <small class="sugerido">último registro: {{ medicamento.evoluciones[0].fechaCarga
+                                                                            | fecha }}
+                                                                        </small>
+                                                                    </ng-container>
+                                                                </div>
+                                                            </div> -->
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-2 p-0 m-0">
+                                                    <div class="p-0 pt-1 pr-1 float-right">
+                                                        <!-- <ng-container *ngIf="medicamento.evoluciones">
+                                                            <small class="badge badge-success text-default p-1">{{ medicamento.evoluciones[medicamento.evoluciones.length-1].estado
+                                                                }}
+                                                            </small>
+                                                        </ng-container> -->
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                        </li>
+                    </ng-container>
+                </ul>
+                <div *ngIf="vacunas.length === 0">No hay medicamentos registrados</div>
             </div>
         </ng-container>
     </div>
