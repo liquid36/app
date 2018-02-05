@@ -23,6 +23,7 @@ export class EspacioFisicoComponent implements OnInit {
     finScroll = false;
     tengoDatos = true;
     loader = false;
+    fin = false;
 
     constructor(private formBuilder: FormBuilder, private espacioFisicoService: EspacioFisicoService, public auth: Auth, public plex: Plex) { }
 
@@ -71,9 +72,18 @@ export class EspacioFisicoComponent implements OnInit {
                 } else {
                     this.espaciosFisicos = espaciosFisicos;
                     this.finScroll = false;
+                    this.fin = false;
                 }
 
                 this.loader = false;
+                if (espaciosFisicos.length === 0 ) {
+                    this.fin = true;
+
+                   }
+                   if (espaciosFisicos.length < limit ) {
+                    this.fin = true;
+
+                   }
             }); // Bind to view
     }
 

@@ -27,7 +27,10 @@
         <br>
     </header>
     <plex-scroll (on-scroll)="nextPage($event)" distancia="1"></plex-scroll>
-        <div class="table-responsive">
+    <div *ngIf="espaciosFisicos.length === 0" class="alert alert-danger">
+        No se encontró ningún espacio fisico
+     </div>   
+    <div *ngIf="espaciosFisicos && espaciosFisicos.length"  class="table-responsive">
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -60,8 +63,8 @@
             </table>
         </div>
         <plex-loader *ngIf="loader"></plex-loader>
-        <div  class="alert alert-info"  (click)="nextPage()" >
-                <p style="text-align: center;"> Ver mas </p>
+        <div  class="alert alert-info" *ngIf="fin === false"  role="button" (click)="nextPage()" >
+                <p class="text-center"> Ver más </p>
         <!-- pasar a un componente de plex -->
         </div>
     </plex-box>

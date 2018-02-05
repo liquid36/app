@@ -19,17 +19,19 @@ export class OrganizacionComponent implements OnInit {
     value: any;
     skip = 0;
     nombre = '';
+    codigoSisa = '';
     activo: boolean = null;
     loader = false;
-    finScroll = false;
     tengoDatos = true;
     checked = true;
+    fin = false;
 
     constructor(private formBuilder: FormBuilder, private organizacionService: OrganizacionService) { }
 
     ngOnInit() {
         this.searchForm = this.formBuilder.group({
             nombre: [''],
+            codigoSisa: [''],
             activo: true
         });
 
@@ -43,25 +45,34 @@ export class OrganizacionComponent implements OnInit {
 
     loadDatos(concatenar: boolean = false) {
         let parametros = {
-            'activo': this.value && this.value.activo, 'nombre':
-            this.value && this.value.nombre
-            , 'skip': this.skip, 'limit': limit
+            'activo': this.value && this.value.activo,
+             'nombre': this.value && this.value.nombre,
+             'codigoSisa': this.value && this.value.codigoSisa,
+             'skip': this.skip, 'limit': limit
         };
         this.organizacionService.get(parametros)
             .subscribe(
             datos => {
+
                 if (concatenar) {
                     if (datos.length > 0) {
                         this.datos = this.datos.concat(datos);
                     } else {
-                        this.finScroll = true;
                         this.tengoDatos = false;
                     }
                 } else {
                     this.datos = datos;
-                    this.finScroll = false;
+                    this.fin = false;
                 }
                 this.loader = false;
+               if (datos.length === 0 ) {
+                this.fin = true;
+
+               }
+               if (datos.length < limit ) {
+                this.fin = true;
+
+               }
             });
     }
 
@@ -81,16 +92,28 @@ export class OrganizacionComponent implements OnInit {
             .subscribe(dato => this.loadDatos()); // Bind to view
     }
 
-    activate(objOrganizacion: IOrganizacion) {
-        if (objOrganizacion.activo) {
+    // activate(objOrganizacion: IOrganizacion) {
+    //     if (objOrganizacion.activo) {
 
-            this.organizacionService.disable(objOrganizacion)
-                .subscribe(dato => this.loadDatos()); // Bind to view
-        } else {
-            this.organizacionService.enable(objOrganizacion)
-                .subscribe(dato => this.loadDatos()); // Bind to view
-        }
+    //         this.organizacionService.disable(objOrganizacion)
+    //             .subscribe(dato => this.loadDatos()); // Bind to view
+    //     } else {
+    //         this.organizacionService.enable(objOrganizacion)
+    //             .subscribe(dato => this.loadDatos()); // Bind to view
+    //     }
+    // }
+
+    activateTrue(objOrganizacion: IOrganizacion) {
+        this.organizacionService.enable(objOrganizacion)
+                 .subscribe(datos => this.loadDatos());  // Bind to view
     }
+
+
+    activateFalse(objEspacioFisico: IOrganizacion) {
+        this.organizacionService.disable(objEspacioFisico)
+                 .subscribe(datos => this.loadDatos());  // Bind to view
+    }
+
 
     onEdit(objOrganizacion: IOrganizacion) {
         this.showcreate = true;

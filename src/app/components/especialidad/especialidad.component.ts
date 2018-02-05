@@ -58,13 +58,23 @@ export class EspecialidadComponent implements OnInit {
                         this.datos = this.datos.concat(datos);
                         this.total = this.datos.length;
                     } else {
-                        this.finScroll = true;
+
                         this.tengoDatos = false;
                     }
                 } else {
                     this.datos = datos;
-                    this.finScroll = true;
+                    this.finScroll = false;
                 }
+           
+                if (datos.length === 0) {
+                    this.finScroll = true;
+    
+                   }
+
+                if (datos.length < limit ) {
+                    this.finScroll = true;
+    
+                   }
 
                 this.loader = false;
             }); // Bind to view

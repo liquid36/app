@@ -21,7 +21,10 @@
                 <plex-scroll (scroll)="onScrollEvent()" distancia="3"></plex-scroll>
 
             <div class="table-responsive" (scroll)="nextPage($event)">
-                <table class="table table-striped">
+                    <div *ngIf="datos.length === 0" class="alert alert-danger">
+                            No se encontró ningúna especialidad
+                     </div>
+                <table  *ngIf="datos && datos.length" class="table table-striped">
                     <thead>
                         <tr>
                             <th>Codigo Sisa</th>
@@ -31,6 +34,7 @@
                             <th>Actualizar</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         <tr *ngFor="let especialidad of datos">
                             <td>{{especialidad.codigo? especialidad.codigo.sisa: ''}}</td>
@@ -55,8 +59,8 @@
             </div>
             <p></p>
             <plex-loader *ngIf="loader"></plex-loader>
-            <div *ngIf="finScroll" class="alert alert-info"  (click)="nextPage()" >
-                <p style="text-align: center;"> Ver mas </p>
+            <div *ngIf="!finScroll" class="alert alert-info" role="button"  (click)="nextPage()" >
+                <p class="text-center" > Ver más </p>
 <!-- pasar a un componente de plex -->
 </div>
 </plex-box>

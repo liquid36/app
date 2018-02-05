@@ -7,11 +7,15 @@
 
         <form [formGroup]="searchForm">
           <div class="row">
-            <div class="col-6">
+            <div class="col-5">
+              <plex-text formControlName="codigoSisa" label="codigoSisa" placeholder="Ingresar codigo...">
+              </plex-text>
+            </div>
+            <div class="col-5">
               <plex-text formControlName="nombre" label="Nombre" placeholder="Ingresar nombre...">
               </plex-text>
             </div>
-            <div class="col-4">
+            <div class="col-2">
               <label>Habilitado</label>
               <plex-bool type="slide" formControlName="activo" name="activo"></plex-bool>
             </div>
@@ -21,6 +25,9 @@
       </header>
         <!--// TODO: hay que resolver el tema de plex-scroll-->
         <plex-scroll (on-scroll)="nextPage()" distancia="3"></plex-scroll>
+        <div *ngIf="datos.length === 0" class="alert alert-danger">
+             No se encontró ningúna organizacion
+          </div>
         <table *ngIf="datos && datos.length" class="table table-striped">
           <thead>
             <tr>
@@ -39,7 +46,9 @@
                 <p class="text-center">{{organizacion.nivelComplejidad}}</p>
               </td>
               <td>
-                <plex-bool type="slide" [(ngModel)]="organizacion.activo" label="" name="organizacion.activo" (click)="activate(organizacion)"></plex-bool>
+                  <plex-bool type="slide" *ngIf="organizacion.activo === false" [(ngModel)]="organizacion.activo"  name="organizacion.activo" (change)="activateTrue(organizacion)"></plex-bool>
+                  <plex-bool type="slide" *ngIf="organizacion.activo === true" [(ngModel)]="organizacion.activo"  name="organizacion.activo" (change)="activateFalse(organizacion)"></plex-bool>
+                <!-- <plex-bool type="slide" [(ngModel)]="organizacion.activo" label="" name="organizacion.activo" (click)="activate(organizacion)"></plex-bool> -->
               </td>
               <td>
                 <plex-button type="primary" label="Actualizar" (click)="onEdit(organizacion)">
@@ -49,8 +58,8 @@
           </tbody>
         </table>
         <plex-loader *ngIf="loader"></plex-loader>
-        <div  class="alert alert-info"  (click)="nextPage()" >
-            <p style="text-align: center;"> Ver mas </p>
+        <div  class="alert alert-info" role="button" *ngIf="fin === false" (click)="nextPage()" >
+            <p class="text-center">Ver más </p>
     <!-- pasar a un componente de plex -->
     </div>
       </plex-box>
